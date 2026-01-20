@@ -37,7 +37,6 @@ import {
   LayoutDashboard,
   History,
   User,
-  Settings,
   ShieldCheck,
 } from "lucide-react";
 // Assuming you have one, if not I'll just skip or add one later
@@ -55,7 +54,8 @@ export function Navbar() {
   const user = UseGetCurrentUser();
 
   // Hide Navbar on Auth pages
-  if (pathname.includes("/auth/")) {
+  // Hide Navbar on Auth pages
+  if (pathname === "/auth" || pathname.startsWith("/auth/")) {
     return null;
   }
 
