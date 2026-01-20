@@ -32,7 +32,7 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${lexend.variable} ${kalam.variable} font-kalam    antialiased`}
+          className={`${lexend.variable} ${kalam.variable} font-sans antialiased`}
         >
           <ConvexClientProvider>
             <ThemeProvider
