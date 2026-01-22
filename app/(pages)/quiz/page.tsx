@@ -23,6 +23,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { SetSelector } from "@/components/quiz/set-selector";
+import { Button } from "@/components/ui/button";
 
 export default function QuizDashboardPage() {
   const dashboardData = useQuery(api.quiz.getDashboard);
@@ -200,11 +201,11 @@ export default function QuizDashboardPage() {
               return (
                 <div
                   key={topic._id}
-                  className="group relative flex items-center gap-4 glass-card p-4 rounded-2xl border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] bg-[#111] overflow-hidden"
+                  className="group relative flex items-center gap-3 glass-card p-4 rounded-2xl border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] bg-[#111] overflow-hidden"
                 >
                   {/* Icon */}
-                  <div className="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-12 group-hover:scale-110 transition-transform duration-300">
-                    <SubjectIcon className="w-6 h-6" />
+                  <div className="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-10 group-hover:scale-110 transition-transform duration-300">
+                    <SubjectIcon className="w-5 h-5" />
                   </div>
 
                   {/* Content & Progress */}
@@ -228,7 +229,9 @@ export default function QuizDashboardPage() {
                   </div>
 
                   {/* Open Button */}
-                  <button
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() =>
                       setSelectedTopic({
                         id: topic._id,
@@ -238,10 +241,10 @@ export default function QuizDashboardPage() {
                         userProgress: topic.userProgress,
                       })
                     }
-                    className="shrink-0 flex items-center justify-center size-10 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-primary hover:border-primary hover:text-white transition-all p-1  active:scale-95"
+                    className="shrink-0 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-primary hover:border-primary hover:text-white transition-all px-4 h-9 active:scale-95 font-bold text-xs"
                   >
-                    open
-                  </button>
+                    Open
+                  </Button>
                 </div>
               );
             })}
@@ -259,34 +262,38 @@ export default function QuizDashboardPage() {
       </div>
 
       {/* Set Selection Dialog */}
-      <Dialog
-        open={!!selectedTopic}
-        onOpenChange={(open) => !open && setSelectedTopic(null)}
-      >
-        <DialogContent className="bg-[#0f0f0f] border-white/10 m-2 p-2  text-white max-w-4xl h-[80vh] flex flex-col  gap-0">
-          <DialogHeader className="p-6 pb-2 border-b border-white/5">
-            <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-              <span className="text-primary">{selectedTopic?.name}</span>
-              <span className="text-white/40 font-normal text-lg">/ Sets</span>
-            </DialogTitle>
-            <DialogDescription className="text-white/50">
-              Select a set to begin your attempt. Completed sets show your high
-              score.
-            </DialogDescription>
-          </DialogHeader>
+      <div className="m-2">
+        <Dialog
+          open={!!selectedTopic}
+          onOpenChange={(open) => !open && setSelectedTopic(null)}
+        >
+          <DialogContent className="bg-[#0f0f0f] border-white/10 m-2 p-2  text-white max-w-4xl h-[80vh] flex flex-col  gap-0">
+            <DialogHeader className="p-6 pb-2 border-b border-white/5">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                <span className="text-primary">{selectedTopic?.name}</span>
+                <span className="text-white/40 font-normal text-lg">
+                  / Sets
+                </span>
+              </DialogTitle>
+              <DialogDescription className="text-white/50">
+                Select a set to begin your attempt. Completed sets show your
+                high score.
+              </DialogDescription>
+            </DialogHeader>
 
-          {selectedTopic && (
-            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
-              <SetSelector
-                topicId={selectedTopic.id}
-                subjectId={selectedTopic.subjectId}
-                totalSets={selectedTopic.totalSets}
-                userProgress={selectedTopic.userProgress}
-              />
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            {selectedTopic && (
+              <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                <SetSelector
+                  topicId={selectedTopic.id}
+                  subjectId={selectedTopic.subjectId}
+                  totalSets={selectedTopic.totalSets}
+                  userProgress={selectedTopic.userProgress}
+                />
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }
