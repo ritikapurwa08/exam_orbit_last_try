@@ -36,19 +36,17 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
   const { signIn } = useAuthActions();
 
   const handlePasswordSignUp = form.handleSubmit(
-    ({ name, email, password, confirmPassword }) => {
-      if (password !== confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
+    ({ name, email, password }) => {
       setSigningUp(true);
       signIn("password", { name, email, password, flow: "signUp" })
+        .then(() => {
+          router.push("/quiz");
+        })
         .catch(() => {
           setError("Something went wrong!");
         })
         .finally(() => {
           setSigningUp(false);
-          router.push("/");
         });
     },
   );

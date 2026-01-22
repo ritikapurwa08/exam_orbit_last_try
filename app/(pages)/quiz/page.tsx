@@ -267,7 +267,7 @@ export default function QuizDashboardPage() {
         open={!!selectedTopic}
         onOpenChange={(open) => !open && setSelectedTopic(null)}
       >
-        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white max-w-4xl h-[80vh] flex flex-col p-0">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold flex items-center gap-2">
               <span className="text-primary">{selectedTopic?.name}</span>
@@ -280,7 +280,7 @@ export default function QuizDashboardPage() {
           </DialogHeader>
 
           {selectedTopic && (
-            <div className="pt-6">
+            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
               <SetSelector
                 topicId={selectedTopic.id}
                 subjectId={selectedTopic.subjectId}

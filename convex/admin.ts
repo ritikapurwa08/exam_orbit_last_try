@@ -10,10 +10,12 @@ const checkAdmin = async (ctx: any) => {
   if (!userId) {
     throw new Error("Unauthorized");
   }
-  // For now, allowing any authenticated user to be admin for development speed,
-  // OR strictly, we should check against a hardcoded list or DB field.
-  // Given user didn't provide specific admin logic, I'll allow it but add a TODO.
-  // TODO: Add strict admin role check
+
+  const user = await ctx.db.get(userId);
+  if (user?.role !== "admin") {
+    throw new Error("Admin access required");
+  }
+
   return userId;
 };
 

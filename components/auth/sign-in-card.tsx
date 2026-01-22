@@ -36,12 +36,14 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
   const handlePasswordSignIn = form.handleSubmit(({ email, password }) => {
     setSigningIn(true);
     signIn("password", { email, password, flow: "signIn" })
+      .then(() => {
+        router.push("/quiz");
+      })
       .catch(() => {
         setError("Invalid email or password");
       })
       .finally(() => {
         setSigningIn(false);
-        router.push("./");
       });
   });
 

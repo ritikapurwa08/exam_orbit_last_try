@@ -1,15 +1,33 @@
 "use client";
 
-import { UseGetCurrentUser } from "@/api/users/get-current-user";
+import { AuthScreen } from "@/components/auth/auth-screen";
+import { Authenticated, Unauthenticated } from "convex/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+function DashboardRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/quiz");
+  }, [router]);
+
+  return (
+    <div className="h-screen w-full flex items-center justify-center bg-[#0a0a0a] text-white">
+      Loading Dashboard...
+    </div>
+  );
+}
 
 export default function App() {
-  const user = UseGetCurrentUser();
   return (
     <main>
-      <div>
-        <p>hello my name</p>
-        {user ? <div>{user.name}</div> : <div>user not found</div>}
-      </div>
+      <Authenticated>
+        <DashboardRedirect />
+      </Authenticated>
+      <Unauthenticated>
+        <AuthScreen />
+      </Unauthenticated>
     </main>
   );
 }
