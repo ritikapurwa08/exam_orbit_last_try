@@ -9,9 +9,11 @@ import {
   ChevronRight,
   ShieldCheck,
   LogOut,
+  Loader2,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Doc } from "@/convex/_generated/dataModel";
 
@@ -22,8 +24,10 @@ interface ProfileMenuProps {
 export function ProfileMenu({ user }: ProfileMenuProps) {
   const router = useRouter();
   const { signOut } = useAuthActions();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     await signOut();
     router.push("/auth");
   };
@@ -137,10 +141,15 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
       {/* Log Out */}
       <button
         onClick={handleLogout}
+        disabled={loggingOut}
         className="w-full h-14 mt-8 bg-[#111111] border border-white/5 rounded-2xl flex items-center justify-center gap-2 text-red-500 font-bold hover:bg-red-500/10 transition-colors active:scale-[0.98]"
       >
         <div className="size-6 rounded-md border border-red-500/30 flex items-center justify-center">
-          <LogOut className="w-3.5 h-3.5" />
+          {loggingOut ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <LogOut className="w-3.5 h-3.5" />
+          )}
         </div>
         Log Out
       </button>

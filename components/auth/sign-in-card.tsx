@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { SignInFlow } from "@/types/auth-types";
 import { useRouter } from "next/navigation";
@@ -87,6 +87,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             size="lg"
             disabled={signingIn}
           >
+            {signingIn && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Continue
           </Button>
         </form>

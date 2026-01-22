@@ -22,14 +22,6 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Menu,
@@ -117,50 +109,16 @@ export function Navbar() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           {/* USER MENU */}
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-9 w-9 rounded-full"
-                >
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage src={user.image} alt={user.name} />
-                    <AvatarFallback>
-                      {user.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      {user.name}
-                    </p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      {user.email}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/profile")}>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/admin")}>
-                  <ShieldCheck className="mr-2 h-4 w-4" />
-                  <span>Admin Panel</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  className="text-red-600 focus:text-red-600"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button
+              variant="ghost"
+              className="relative h-9 w-9 rounded-full"
+              onClick={() => router.push("/profile")}
+            >
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={user.image} alt={user.name} />
+                <AvatarFallback>{user.name?.charAt(0) || "U"}</AvatarFallback>
+              </Avatar>
+            </Button>
           ) : (
             <Button size="sm" onClick={() => router.push("/auth")}>
               Sign In
@@ -212,7 +170,7 @@ export function Navbar() {
 
                 {user && (
                   <div className="absolute bottom-8 left-4 right-4">
-                    <div className="flex items-center gap-3 mb-4 px-4">
+                    <div className="flex items-center gap-3 mb-4 px-4 bg-white/5 p-3 rounded-lg">
                       <Avatar>
                         <AvatarImage src={user.image} />
                         <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
@@ -226,14 +184,6 @@ export function Navbar() {
                         </p>
                       </div>
                     </div>
-                    <Button
-                      variant="destructive"
-                      className="w-full justify-start"
-                      onClick={handleSignOut}
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
-                    </Button>
                   </div>
                 )}
               </SheetContent>

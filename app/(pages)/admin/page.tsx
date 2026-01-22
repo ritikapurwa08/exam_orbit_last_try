@@ -27,6 +27,11 @@ export default function AdminPage() {
   const [questionsJson, setQuestionsJson] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
+  // Loading States
+  const [isCreatingSubject, setIsCreatingSubject] = useState(false);
+  const [isCreatingTopic, setIsCreatingTopic] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
   // Queries
   const subjects = useQuery(api.admin.getSubjects);
   const topics = useQuery(api.admin.getTopics, {
@@ -41,17 +46,21 @@ export default function AdminPage() {
   // Handlers
   const handleCreateSubject = async () => {
     if (!newSubjectName.trim()) return;
+    setIsCreatingSubject(true);
     try {
       await createSubject({ name: newSubjectName });
       toast.success("Subject created");
       setNewSubjectName("");
     } catch (error) {
       toast.error(`Failed to create subject ${error}`);
+    } finally {
+      setIsCreatingSubject(false);
     }
   };
 
   const handleCreateTopic = async () => {
     if (!newTopicName.trim() || !selectedSubject) return;
+    setIsCreatingTopic(true);
     try {
       await createTopic({
         name: newTopicName,
@@ -61,6 +70,8 @@ export default function AdminPage() {
       setNewTopicName("");
     } catch (error) {
       toast.error(`Failed to create topic ${error}`);
+    } finally {
+      setIsCreatingTopic(false);
     }
   };
 
@@ -88,6 +99,7 @@ Only return the valid JSON array, no markdown formatting or other text.`;
 
   const handleUpload = async () => {
     if (!selectedTopic || !questionsJson) return;
+    setIsUploading(true);
     try {
       const parsed = JSON.parse(questionsJson);
       if (!Array.isArray(parsed)) throw new Error("Not an array");
@@ -101,6 +113,8 @@ Only return the valid JSON array, no markdown formatting or other text.`;
     } catch (error) {
       toast.error("Invalid JSON or Upload Failed");
       console.error(error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -155,9 +169,18 @@ Only return the valid JSON array, no markdown formatting or other text.`;
                 placeholder="New Subject Name"
                 value={newSubjectName}
                 onChange={(e) => setNewSubjectName(e.target.value)}
+                disabled={isCreatingSubject}
               />
-              <Button onClick={handleCreateSubject} size="icon">
-                <Plus className="h-4 w-4" />
+              <Button
+                onClick={handleCreateSubject}
+                size="icon"
+                disabled={isCreatingSubject}
+              >
+                {isCreatingSubject ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </CardContent>
@@ -198,14 +221,18 @@ Only return the valid JSON array, no markdown formatting or other text.`;
                 placeholder="New Topic Name"
                 value={newTopicName}
                 onChange={(e) => setNewTopicName(e.target.value)}
-                disabled={!selectedSubject}
+                disabled={!selectedSubject || isCreatingTopic}
               />
               <Button
                 onClick={handleCreateTopic}
                 size="icon"
-                disabled={!selectedSubject}
+                disabled={!selectedSubject || isCreatingTopic}
               >
-                <Plus className="h-4 w-4" />
+                {isCreatingTopic ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </CardContent>
@@ -254,8 +281,16 @@ Only return the valid JSON array, no markdown formatting or other text.`;
             </div>
 
             <div className="flex justify-end">
-              <Button onClick={handleUpload} className="w-full sm:w-auto">
-                <Upload className="h-4 w-4 mr-2" />
+              <Button
+                onClick={handleUpload}
+                className="w-full sm:w-auto"
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Upload className="h-4 w-4 mr-2" />
+                )}
                 Upload Questions
               </Button>
             </div>

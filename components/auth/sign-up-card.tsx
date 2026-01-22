@@ -1,5 +1,5 @@
 import { useAuthActions } from "@convex-dev/auth/react";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -110,6 +110,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             size="lg"
             disabled={signingUp}
           >
+            {signingUp && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Continue
           </Button>
         </form>
