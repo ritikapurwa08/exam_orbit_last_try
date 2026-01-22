@@ -238,9 +238,9 @@ export default function QuizDashboardPage() {
                         userProgress: topic.userProgress,
                       })
                     }
-                    className="shrink-0 flex items-center justify-center size-10 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-primary hover:border-primary hover:text-white transition-all active:scale-95"
+                    className="shrink-0 flex items-center justify-center size-10 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-primary hover:border-primary hover:text-white transition-all p-1  active:scale-95"
                   >
-                    <BookOpen className="w-5 h-5" />
+                    open
                   </button>
                 </div>
               );
