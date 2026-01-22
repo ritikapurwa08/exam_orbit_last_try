@@ -64,10 +64,11 @@ export function SetSelector({
 
         // Cooldown Logic
         // If nextValidAttemptAt > now, then it's in cooldown
-        const isCooldown =
+        const isCooldown = !!(
           now &&
           progress?.nextValidAttemptAt &&
-          progress.nextValidAttemptAt > now;
+          progress.nextValidAttemptAt > now
+        );
         const cooldownText =
           isCooldown && progress?.nextValidAttemptAt
             ? formatDistanceToNow(progress.nextValidAttemptAt)
