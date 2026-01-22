@@ -25,7 +25,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Menu,
-  LogOut,
   LayoutDashboard,
   History,
   User,
@@ -50,11 +49,6 @@ export function Navbar() {
   if (pathname === "/auth" || pathname.startsWith("/auth/")) {
     return null;
   }
-
-  const handleSignOut = async () => {
-    await signOut();
-    router.push("/auth");
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">

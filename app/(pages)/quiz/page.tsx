@@ -200,30 +200,26 @@ export default function QuizDashboardPage() {
               return (
                 <div
                   key={topic._id}
-                  className="group flex flex-col gap-4 glass-card p-5 rounded-2xl border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] bg-[#111]"
+                  className="group relative flex items-center gap-4 glass-card p-4 rounded-2xl border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] bg-[#111] overflow-hidden"
                 >
-                  <div className="flex gap-4 justify-between items-start">
-                    <div className="flex items-start gap-4">
-                      <div className="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-14 group-hover:scale-110 transition-transform duration-300">
-                        <SubjectIcon className="w-7 h-7" />
-                      </div>
-                      <div className="flex flex-col pt-1">
-                        <h4 className="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">
-                          {topic.name}
-                        </h4>
-                        <p className="text-white/40 text-xs font-medium mt-1">
-                          {parentSubject?.name} • {topic.totalSets || 20} Sets
-                        </p>
-                      </div>
-                    </div>
+                  {/* Icon */}
+                  <div className="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-12 group-hover:scale-110 transition-transform duration-300">
+                    <SubjectIcon className="w-6 h-6" />
                   </div>
 
-                  <div className="space-y-2 mt-2">
-                    <div className="flex justify-between text-xs font-semibold text-white/60">
-                      <span>Progress</span>
-                      <span>{Math.round(progress)}%</span>
+                  {/* Content & Progress */}
+                  <div className="flex flex-col flex-1 min-w-0 gap-1.5">
+                    <div className="flex flex-col">
+                      <h4 className="text-white text-base font-bold leading-tight truncate group-hover:text-primary transition-colors">
+                        {topic.name}
+                      </h4>
+                      <p className="text-white/40 text-[10px] font-medium truncate">
+                        {parentSubject?.name} • {topic.totalSets || 20} Sets
+                      </p>
                     </div>
-                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                       <div
                         className="bg-linear-to-r from-primary to-fuchsia-500 h-full transition-all duration-1000 ease-out"
                         style={{ width: `${Math.max(5, progress)}%` }}
@@ -231,20 +227,20 @@ export default function QuizDashboardPage() {
                     </div>
                   </div>
 
+                  {/* Open Button */}
                   <button
                     onClick={() =>
                       setSelectedTopic({
                         id: topic._id,
                         name: topic.name,
-                        subjectId: parentSubject?._id as string, // Safe cast as we know it exists
+                        subjectId: parentSubject?._id as string,
                         totalSets: topic.totalSets || 0,
                         userProgress: topic.userProgress,
                       })
                     }
-                    className="w-full mt-2 cursor-pointer items-center justify-center rounded-xl h-10 bg-white/5 border border-white/10 text-white text-sm font-bold hover:bg-primary hover:border-primary hover:text-white transition-all active:scale-95 flex gap-2"
+                    className="shrink-0 flex items-center justify-center size-10 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-primary hover:border-primary hover:text-white transition-all active:scale-95"
                   >
-                    <span>Open Sets</span>
-                    <BookOpen className="w-4 h-4" />
+                    <BookOpen className="w-5 h-5" />
                   </button>
                 </div>
               );
@@ -267,8 +263,8 @@ export default function QuizDashboardPage() {
         open={!!selectedTopic}
         onOpenChange={(open) => !open && setSelectedTopic(null)}
       >
-        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white max-w-4xl h-[80vh] flex flex-col p-0">
-          <DialogHeader>
+        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white max-w-4xl h-[80vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="p-6 pb-2 border-b border-white/5">
             <DialogTitle className="text-2xl font-bold flex items-center gap-2">
               <span className="text-primary">{selectedTopic?.name}</span>
               <span className="text-white/40 font-normal text-lg">/ Sets</span>

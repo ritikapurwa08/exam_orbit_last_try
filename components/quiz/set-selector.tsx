@@ -56,7 +56,7 @@ export function SetSelector({
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {sets.map((set) => {
         const progress = userProgress.find((p) => p.set === set);
         const isCompleted = !!progress;
@@ -78,37 +78,41 @@ export function SetSelector({
             key={set}
             variant="outline"
             className={cn(
-              "h-auto py-4 flex flex-col gap-2 relative overflow-hidden border-2 transition-all hover:bg-accent",
+              "h-auto aspect-video md:aspect-auto md:h-24 flex flex-col items-center justify-center gap-1.5 relative overflow-hidden border transition-all hover:bg-accent hover:border-primary/50",
               isCompleted
                 ? "border-green-500/20 bg-green-500/5 hover:bg-green-500/10"
-                : "border-slate-200 dark:border-slate-800",
+                : "border-white/10 bg-white/5",
+              isCooldown && "opacity-75 cursor-not-allowed",
             )}
-            onClick={() => handleStartSet(set)}
+            onClick={() => !isCooldown && handleStartSet(set)}
+            disabled={!!isCooldown && !isCompleted}
           >
-            <span className="text-lg font-bold">Set {set}</span>
+            <span className="text-xl font-bold">Set {set}</span>
 
             {isCompleted ? (
               <div className="flex flex-col items-center gap-1">
-                <div className="flex items-center gap-1 text-xs font-bold text-green-600 dark:text-green-400">
+                <div className="flex items-center gap-1 text-xs font-bold text-green-500">
                   <CheckCircle className="w-3 h-3" />
                   <span>{score} Pts</span>
                 </div>
                 {isCooldown && (
                   <div className="flex items-center gap-1 text-[10px] text-orange-500 font-medium bg-orange-500/10 px-1.5 py-0.5 rounded-full">
                     <Lock className="w-3 h-3" />
-                    <span>XP Locked • {cooldownText}</span>
+                    <span>{cooldownText}</span>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-xs text-muted-foreground">Start</div>
+              <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                Start
+              </div>
             )}
 
             {/* Completion Indicator Bar */}
             {isCompleted && (
               <div className="absolute bottom-0 left-0 w-full h-1 bg-green-500/20">
                 <div
-                  className="h-full bg-green-500"
+                  className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"
                   style={{ width: "100%" }}
                 />
               </div>

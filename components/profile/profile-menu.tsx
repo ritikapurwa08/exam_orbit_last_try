@@ -1,6 +1,5 @@
 import {
   User,
-  BookOpen,
   BarChart3,
   History,
   Bell,
