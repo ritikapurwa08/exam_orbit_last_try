@@ -263,7 +263,7 @@ export default function QuizDashboardPage() {
         open={!!selectedTopic}
         onOpenChange={(open) => !open && setSelectedTopic(null)}
       >
-        <DialogContent className="bg-[#0f0f0f] border-white/10 text-white max-w-4xl h-[80vh] flex flex-col p-0 gap-0">
+        <DialogContent className="bg-[#0f0f0f] border-white/10 m-2 p-2  text-white max-w-4xl h-[80vh] flex flex-col  gap-0">
           <DialogHeader className="p-6 pb-2 border-b border-white/5">
             <DialogTitle className="text-2xl font-bold flex items-center gap-2">
               <span className="text-primary">{selectedTopic?.name}</span>
