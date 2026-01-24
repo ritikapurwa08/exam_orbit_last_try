@@ -1,8 +1,8 @@
 import { useAuthActions } from "@convex-dev/auth/react";
-import { TriangleAlert, Loader2 } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { SignUpForm } from "./sign-up-form";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+
 import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "@/types/auth-types";
 import { useRouter } from "next/navigation";
@@ -68,52 +68,11 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         </div>
       )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5" onSubmit={handlePasswordSignUp}>
-          <Input
-            {...form.register("name", {
-              required: true,
-            })}
-            disabled={signingUp}
-            placeholder="Full name"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Input
-            {...form.register("email", {
-              required: true,
-            })}
-            disabled={signingUp}
-            placeholder="Email"
-            type="email"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Input
-            {...form.register("password", {
-              required: true,
-            })}
-            disabled={signingUp}
-            placeholder="Password"
-            type="password"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Input
-            {...form.register("confirmPassword", {
-              required: true,
-            })}
-            disabled={signingUp}
-            placeholder="Confirm password"
-            type="password"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Button
-            type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-bold"
-            size="lg"
-            disabled={signingUp}
-          >
-            {signingUp && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Continue
-          </Button>
-        </form>
+        <SignUpForm
+          form={form}
+          onSubmit={handlePasswordSignUp}
+          isLoading={signingUp}
+        />
         <Separator className="bg-white/10" />
         <p className="text-xs text-white/50">
           Already have an account?{" "}

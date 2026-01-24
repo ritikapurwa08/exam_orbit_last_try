@@ -1,6 +1,5 @@
-import { ChevronRight, History, Filter } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { formatDistanceToNow } from "date-fns";
+import { Filter, History } from "lucide-react";
+
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
@@ -11,8 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { HistoryListItem } from "./history-list-item";
 export function HistoryList() {
-  const router = useRouter();
   const history = useQuery(api.quiz.getUserHistory);
   const [sortBy, setSortBy] = useState<"recent" | "score_asc" | "score_desc">(
     "recent",
@@ -87,50 +86,11 @@ export function HistoryList() {
       </div>
 
       <div className="bg-[#111111] border border-white/5 rounded-3xl overflow-hidden divide-y divide-white/5">
-        {sortedHistory.map((item) => {
-          const percentage = Math.round(
-            (item.score / item.totalQuestions) * 100,
-          );
-          return (
-            <div
-              key={item._id}
-              onClick={() => router.push(`/quiz/review/${item._id}`)}
-              className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`size-10 rounded-full sm:text-xs text-center text-base flex items-center justify-center font-bold   ${
-                    percentage >= 80
-                      ? "bg-green-500/20 text-green-500"
-                      : percentage >= 50
-                        ? "bg-orange-500/20 text-orange-500"
-                        : "bg-red-500/20 text-red-500"
-                  }`}
-                >
-                  {percentage}%
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-white line-clamp-1">
-                    {item.subjectName} • {item.topicName}
-                  </p>
-                  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">
-                    Set {item.set} • {formatDistanceToNow(item.completedAt)} ago
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hidden sm:flex h-8 text-xs text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10"
-                >
-                  Review
-                </Button>
-                <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors" />
-              </div>
-            </div>
-          );
-        })}
+        {sortedHistory.map((item) => (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          <HistoryListItem key={item._id} item={item} />
+        ))}
       </div>
     </div>
   );

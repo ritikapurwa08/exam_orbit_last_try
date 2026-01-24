@@ -7,10 +7,12 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { QuizLayout } from "@/components/quiz/quiz-layout";
 import { QuestionCard } from "@/components/quiz/question-card";
-import { QuizTimer } from "@/components/quiz/quiz-timer";
+import { QuizHeader } from "@/components/quiz/ongoing/quiz-header";
+import { QuizProgress } from "@/components/quiz/ongoing/quiz-progress";
+import { QuizFooter } from "@/components/quiz/ongoing/quiz-footer";
 
 function QuizContent() {
   const router = useRouter();
@@ -126,27 +128,9 @@ function QuizContent() {
 
   return (
     <QuizLayout>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => router.back()}
-          className="text-muted-foreground"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" /> Quit
-        </Button>
+      <QuizHeader onTimeUp={handleSubmit} />
 
-        <QuizTimer duration={600} onTimeUp={handleSubmit} />
-      </div>
-
-      {/* Progress Bar */}
-      <div className="w-full h-1 bg-slate-100 dark:bg-slate-800 rounded-full mb-8 overflow-hidden">
-        <div
-          className="h-full bg-primary transition-all duration-300 ease-out"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+      <QuizProgress progress={progress} />
 
       {/* Main Card */}
       <div className="flex-1 flex flex-col justify-center min-h-100">
@@ -161,39 +145,14 @@ function QuizContent() {
         )}
       </div>
 
-      {/* Footer Navigation */}
-      <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-        <Button
-          variant="outline"
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-          className="w-32 rounded-xl"
-        >
-          Previous
-        </Button>
-
-        {currentIndex === totalQuestions - 1 ? (
-          <Button
-            onClick={handleSubmit}
-            disabled={isSubmitting} // Can allow submit even if skipped? Yes.
-            className="w-32 rounded-xl"
-          >
-            {isSubmitting ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              "Submit"
-            )}
-          </Button>
-        ) : (
-          <Button
-            onClick={handleNext}
-            className="w-32 rounded-xl"
-            disabled={false} // Allow skip? User didn't specify. Usually yes.
-          >
-            Next <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        )}
-      </div>
+      <QuizFooter
+        currentIndex={currentIndex}
+        totalQuestions={totalQuestions}
+        isSubmitting={isSubmitting}
+        onPrevious={handlePrev}
+        onNext={handleNext}
+        onSubmit={handleSubmit}
+      />
     </QuizLayout>
   );
 }

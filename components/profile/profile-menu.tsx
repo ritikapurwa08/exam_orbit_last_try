@@ -5,7 +5,6 @@ import {
   Bell,
   Moon,
   Lock,
-  ChevronRight,
   ShieldCheck,
   LogOut,
   Loader2,
@@ -15,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Doc } from "@/convex/_generated/dataModel";
+import { ProfileMenuItem } from "./profile-menu-item";
 
 interface ProfileMenuProps {
   user: Doc<"users"> | null | undefined;
@@ -39,102 +39,63 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
         Settings
       </h3>
       <div className="bg-[#111111] border border-white/5 rounded-3xl overflow-hidden divide-y divide-white/5">
-        {/* Account */}
-        <div className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group">
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
-              <User className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-sm text-white">Account</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        </div>
-
-        {/* Vocabulary */}
-        {/* <div
-          onClick={() => router.push("/learn/words")}
-          className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform">
-              <BookOpen className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-sm text-white">Vocabulary</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        </div> */}
+        <ProfileMenuItem
+          icon={<User className="w-5 h-5" />}
+          label="Account"
+          bgClass="bg-blue-500/20"
+          colorClass="text-blue-500"
+        />
 
         {/* Statistics */}
-        <div
+        <ProfileMenuItem
+          icon={<BarChart3 className="w-5 h-5" />}
+          label="Statistics"
+          bgClass="bg-violet-500/20"
+          colorClass="text-violet-500"
           onClick={() => router.push("/stats")}
-          className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-500 group-hover:scale-110 transition-transform">
-              <BarChart3 className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-sm text-white">Statistics</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        </div>
+        />
 
         {/* History */}
-        <div
+        <ProfileMenuItem
+          icon={<History className="w-5 h-5" />}
+          label="History"
+          bgClass="bg-orange-500/20"
+          colorClass="text-orange-500"
           onClick={() => router.push("/quiz/history")}
-          className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-              <History className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-sm text-white">History</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        </div>
+        />
 
         {/* Notifications */}
-        <div className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group">
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
-              <Bell className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-sm text-white">Notifications</span>
-          </div>
-          <Switch checked={true} />
-        </div>
+        <ProfileMenuItem
+          icon={<Bell className="w-5 h-5" />}
+          label="Notifications"
+          bgClass="bg-emerald-500/20"
+          colorClass="text-emerald-500"
+          rightElement={<Switch checked={true} />}
+        />
 
         {/* Dark Mode */}
-        <div className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer group">
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-full bg-slate-700/50 flex items-center justify-center text-slate-300 group-hover:scale-110 transition-transform">
-              <Moon className="w-5 h-5" />
+        <ProfileMenuItem
+          icon={<Moon className="w-5 h-5" />}
+          label="Dark Mode"
+          bgClass="bg-slate-700/50"
+          colorClass="text-slate-300"
+          rightElement={<Lock className="w-4 h-4 text-slate-600" />}
+          subLabel={
+            <div className="text-[10px] font-bold text-indigo-400">
+              Premium OLED Active
             </div>
-            <div>
-              <div className="font-bold text-sm text-white">Dark Mode</div>
-              <div className="text-[10px] font-bold text-indigo-400">
-                Premium OLED Active
-              </div>
-            </div>
-          </div>
-          <Lock className="w-4 h-4 text-slate-600" />
-        </div>
+          }
+        />
 
         {/* Admin Console */}
         {isAdmin && (
-          <div
+          <ProfileMenuItem
+            icon={<ShieldCheck className="w-5 h-5" />}
+            label="Admin Console"
+            bgClass="bg-red-500/20"
+            colorClass="text-red-500"
             onClick={() => router.push("/admin/add-question")}
-            className="p-4 flex items-center justify-between active:bg-white/5 transition-colors cursor-pointer hover:bg-white/5 border-t border-white/5 group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="size-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <span className="font-bold text-sm text-white">
-                Admin Console
-              </span>
-            </div>
-            <ChevronRight className="w-5 h-5 text-slate-600" />
-          </div>
+          />
         )}
       </div>
       {/* Log Out */}

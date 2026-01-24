@@ -1,6 +1,6 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { SignInForm } from "./sign-in-form";
 import {
   Card,
   CardContent,
@@ -8,9 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+
 import { Separator } from "@/components/ui/separator";
-import { TriangleAlert, Loader2 } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { SignInFlow } from "@/types/auth-types";
 import { useRouter } from "next/navigation";
@@ -62,35 +62,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         </div>
       )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5" onSubmit={handlePasswordSignIn}>
-          <Input
-            {...form.register("email", {
-              required: true,
-            })}
-            disabled={signingIn}
-            placeholder="Email"
-            type="email"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Input
-            {...form.register("password", {
-              required: true,
-            })}
-            disabled={signingIn}
-            placeholder="Password"
-            type="password"
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-primary/50 focus:ring-primary/20"
-          />
-          <Button
-            type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-bold"
-            size="lg"
-            disabled={signingIn}
-          >
-            {signingIn && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Continue
-          </Button>
-        </form>
+        <SignInForm
+          form={form}
+          onSubmit={handlePasswordSignIn}
+          isLoading={signingIn}
+        />
         <Separator className="bg-white/10" />
 
         <p className="text-xs text-white/50">
